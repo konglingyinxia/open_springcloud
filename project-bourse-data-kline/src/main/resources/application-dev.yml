@@ -1,0 +1,80 @@
+server:
+  port: 6000
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://127.0.0.1:8080/eureka/
+#  instance:
+#    lease-expiration-duration-in-seconds: 90 #服务端在收到最后一次心跳之后等待的时间上限，单位为秒，超过则剔除（客户端告诉服务端按照此规则等待自己）
+#    lease-renewal-interval-in-seconds: 30 #定义服务续约任务（心跳）的调用间隔，单位：秒
+
+spring:
+  application:
+    name: PROJECT-BOURSE-DATA-KLINE
+  redis:
+    host: 192.168.1.200
+    port: 6379
+    timeout: 5000
+    lettuce:
+      pool:
+        max-active: -1
+        max-idle: 500
+        min-idle: 20
+        max-wait: 100
+    #password: 123456
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 10
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.200:3306/project-bourse-data-kline?useUnicode=true&amp&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  #配置文件传输
+  servlet:
+    multipart:
+      max-file-size: 20MB
+
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/com.business.mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/com.business.mapper/*Mapper.xml
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  global-config:
+    db-config:
+      id-type: auto
+      field-strategy: default
+      db-type: mysql
+
+  configuration:
+    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    #配置JdbcTypeForNull, oracle数据库必须配置
+    jdbc-type-for-null: 'null'
+  type-aliases-package: com.shop.PO
+
+#pagehelper分页插件配置
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: countSql
+
+logging:
+  level:
+    com: info
+  file: log/catalina_data.out
+
+
+netty-websocket:
+  port: 6001
+  path: /websocket/chat
+
+

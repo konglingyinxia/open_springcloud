@@ -1,0 +1,76 @@
+server:
+  port: 9888
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,application/javascript,image/png
+    min-response-size: 50KB
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://127.0.0.1:8080/eureka/
+#  instance:
+#    lease-expiration-duration-in-seconds: 90 #服务端在收到最后一次心跳之后等待的时间上限，单位为秒，超过则剔除（客户端告诉服务端按照此规则等待自己）
+#    lease-renewal-interval-in-seconds: 30 #定义服务续约任务（心跳）的调用间隔，单位：秒
+
+spring:
+  application:
+    name: COMMON-GATEWAY-SERVER
+
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: SUDA-PLATFORM-KLINE
+          uri: lb://SUDA-PLATFORM-KLINE
+          predicates:
+            - Path=/data/**
+          filters:
+            - StripPrefix=1
+        - id: SUDA-PLATFORM-WEB
+          uri: lb://SUDA-PLATFORM-WEB
+          predicates:
+            - Path=/platform/**
+          filters:
+            - StripPrefix=1
+
+        - id: PROJECT-BOURSE-DATA-KLINE
+          uri: http://192.168.1.6:6000
+          predicates:
+            - Path=/dataKline/**
+          filters:
+            - StripPrefix=1
+
+        - id: chat-websocket
+          uri: ws://localhost:6001
+          order: 6001
+          predicates:
+            - Path=/chatWebsocket/**
+          filters:
+            - StripPrefix=1
+        - id: chat-service
+          uri: lb://SUDA-PLATFORM-IMCHAT
+          predicates:
+            - Path=/chatService/**
+          filters:
+            - StripPrefix=1
+        - id: SUDA-GAME-CAR
+          uri: lb://SUDA-GAME-CAR
+          predicates:
+            - Path=/gamecar/**
+          filters:
+            - StripPrefix=1
+
+#静态文件配置路径
+my-config:
+    static-locations: F:/IDE/IDEA_JAVA/suda_workspace/suda_cloud/page/
+    static-path-pattern: /page/**

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.kongling.item</groupId>
+        <artifactId>open_springcloud</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>project-bourse-data-kline</artifactId>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.kongling.item</groupId>
+            <artifactId>common-item-config</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kongling.item</groupId>
+            <artifactId>common-item-util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kongling.item</groupId>
+            <artifactId>common-fegin-server</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.0.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--websocket-->
+       <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>-->
+        <!-- 启用Netty https://mvnrepository.com/artifact/org.yeauty/netty-websocket-spring-boot-starter -->
+        <dependency>
+            <groupId>org.yeauty</groupId>
+            <artifactId>netty-websocket-spring-boot-starter</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+
+        <!--<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>-->
+
+    </dependencies>
+
+    <!--打包配置-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
