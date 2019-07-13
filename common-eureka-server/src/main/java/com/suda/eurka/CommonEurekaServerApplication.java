@@ -8,18 +8,17 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /**
- * Created by Zhang on 2018/8/4.
  * springboot启动类
  * @author  kongling
  */
   @SpringBootApplication(exclude={DataSourceAutoConfiguration.class,
           MybatisAutoConfiguration.class})
   @EnableEurekaServer
-public class EurekaServerApplication {
+public class CommonEurekaServerApplication {
 
     public  static  void main(String [] args){
         System.err.println("启动中....");
-        SpringApplication.run(EurekaServerApplication.class,args);
+        SpringApplication.run(CommonEurekaServerApplication.class,args);
         System.err.println("启动成功！");
     }
 

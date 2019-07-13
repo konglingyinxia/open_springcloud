@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,6 +28,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="GoodsOrghisInfo对象", description="商品实时数据表")
+@ToString
 public class GoodsOrghisInfo extends Model<GoodsOrghisInfo> {
 
     private static final long serialVersionUID = 1L;

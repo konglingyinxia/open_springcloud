@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 9881
 eureka:
   instance:
     hostname: 127.0.0.1 #设置当前实例的主机名称
@@ -16,7 +16,7 @@ eureka:
 
 spring:
   application:
-    name: EUREKA-SERVER
+    name: COMMON-EUREKA-SERVER
 logging:
   level:
     com: debug

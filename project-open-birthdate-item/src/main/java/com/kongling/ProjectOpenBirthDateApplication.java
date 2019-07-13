@@ -24,13 +24,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableFeignClients(basePackages = {"com.kongling.fegin"})
 @EnableAsync
 @EnableCaching
-public class SudaPlatformWebApplication {
-    private static final Logger logger = LoggerFactory.getLogger(SudaPlatformWebApplication.class);
+public class ProjectOpenBirthDateApplication {
+    private static final Logger logger = LoggerFactory.getLogger(ProjectOpenBirthDateApplication.class);
 
 
     public static void main(String[] args) {
-        logger.info("Springboot启动中....");
-        SpringApplication.run(SudaPlatformWebApplication.class, args);
-        logger.info("启动成功！");
+        logger.info("生日类项目启动....");
+        SpringApplication.run(ProjectOpenBirthDateApplication.class, args);
+        logger.info("生日类项目启动成功！");
     }
 }

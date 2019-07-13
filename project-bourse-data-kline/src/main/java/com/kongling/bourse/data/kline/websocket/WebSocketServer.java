@@ -1,9 +1,8 @@
 package com.kongling.bourse.data.kline.websocket;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.constant.RedisKeysPrefix;
 import com.google.common.collect.Maps;
+import com.kongling.bourse.data.kline.common.service.ICommonDataService;
 import com.kongling.bourse.data.kline.entity.PO.GoodsOrghisInfo;
 import config.redis.RedisUtils;
 import io.netty.channel.ChannelId;
@@ -36,6 +35,8 @@ public class WebSocketServer {
 
     @Autowired
     private RedisUtils redisUtils;
+    @Autowired
+    private ICommonDataService commonDataService;
 
     private static ConcurrentMap<ChannelId, Session> concurrentHashMap = Maps.newConcurrentMap();
 
@@ -72,7 +73,8 @@ public class WebSocketServer {
     public void onMessage(Session session, String message) throws IOException {
         try{
             GoodsOrghisInfo orghisInfo =JSONObject.toJavaObject(JSONObject.parseObject(message),GoodsOrghisInfo.class);
-            redisUtils.lpushQueue(RedisKeysPrefix.FROM_LINKED_QUEUE_NEW_DATE_MESSAGE, JSONObject.toJSONString(orghisInfo, SerializerFeature.WriteMapNullValue));
+            commonDataService.putGoodsOrghisInfo(orghisInfo);
+           // redisUtils.lpushQueue(RedisKeysPrefix.FROM_LINKED_QUEUE_NEW_DATE_MESSAGE, JSONObject.toJSONString(orghisInfo, SerializerFeature.WriteMapNullValue));
         }catch (Exception e){
             session.sendText(ExceptionUtils.getStackTrace(e));
         }

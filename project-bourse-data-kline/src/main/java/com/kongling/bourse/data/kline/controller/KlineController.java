@@ -55,6 +55,9 @@ public class KlineController {
     }
 
 
+    /**
+     *  合成数据测试
+      */
     static  long  seccond_60 = 1000*10;
     public static void main(String[] args) {
 

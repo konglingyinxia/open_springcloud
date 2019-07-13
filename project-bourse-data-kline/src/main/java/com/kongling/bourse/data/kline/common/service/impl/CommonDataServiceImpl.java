@@ -75,11 +75,12 @@ public class CommonDataServiceImpl implements ICommonDataService {
                     try {
                         JSONObject json = JSONObject.parseObject(str);
                         GoodsOrghisInfo orghisInfo = JSONObject.toJavaObject(json,GoodsOrghisInfo.class);
-                        putGoodsOrghisInfo(orghisInfo);
+                       // putGoodsOrghisInfo(orghisInfo);
                     }catch (Exception e){
                         log.info("合成数据调用方法错误：\n"+ ExceptionUtils.getFullStackTrace(e));
                     }
                 }
+               // log.info("接收数据：\n"+str);
             }
         });
     }
@@ -91,6 +92,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
      */
     @Override
     public void putGoodsOrghisInfo(GoodsOrghisInfo orghisInfo) {
+        log.info("接收数据：\n"+orghisInfo.toString());
         //构造实时数据
         toCompoundDataRedis(orghisInfo);
         //构造分时k线数据
@@ -208,6 +210,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
      */
     private void commonCreateData(GoodsOrghisInfo stockOrghisInfo, String  minutetype) {
         taskExecutor.execute(()-> {
+            long start = System.currentTimeMillis();
             try {
                 switch (minutetype) {
                     case "minute":
@@ -265,6 +268,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
                 e.printStackTrace();
                 log.error(minutetype + "分钟数据合成：" + ExceptionUtils.getStackTrace(e));
             }
+           // System.out.println("入口合成时间："+(System.currentTimeMillis()-start));
         });
     }
 
