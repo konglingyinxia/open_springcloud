@@ -1,7 +1,7 @@
-package com.kongling.bourse.data.kline.service;
+package com.kongling.birthdate.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kongling.bourse.data.kline.entity.PO.GoodsOrghisInfo;
+import com.kongling.birthdate.entity.PO.GoodsOrghisInfo;
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import com.kongling.bourse.data.kline.entity.PO.GoodsOrghisInfo;
 public interface IGoodsOrghisInfoService extends IService<GoodsOrghisInfo> {
 
     /**
-     * 测试事务
+     * 测试 lcn
      * @return
      */
     String testLcn();

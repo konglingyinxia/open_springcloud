@@ -1,5 +1,6 @@
 package com.kongling.bourse.data;
 
+import com.codingapi.txlcn.tc.config.EnableDistributedTransaction;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableFeignClients(basePackages = {"com.kongling.fegin"})
 @EnableAsync
 @EnableCaching
+@EnableDistributedTransaction
 public class ProjectBourseDataKlineApplication {
     private static final Logger logger = LoggerFactory.getLogger(ProjectBourseDataKlineApplication.class);
 

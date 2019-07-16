@@ -10,21 +10,13 @@ package com.constant;
  */
 public class ServerNameConstant {
     /**
-     * 商城服务
+     * 生辰八字服务
      */
-    public static final String  SUDA_ADMIN_WEB = " SUDA-ADMIN-WEB";
-    /**
-     * 钱包平台服务
-     */
-    public static final String SUDA_PLATFORM_WEB = "SUDA-PLATFORM-WEB";
-    /**
-     * 数据服务
-     */
-    public static final String SUDA_PLATFORM_KLINE = "SUDA-PLATFORM-KLINE";
+    public static final String  PROJECT_OPEN_BIRTHDATE_ITEM = "PROJECT-OPEN-BIRTHDATE-ITEM";
 
-    //==========================游戏服务============================================
     /**
-     * 汽车大亨游戏服务
+     * 金融数据 k线处理服务
      */
-    public static final String SUDA_GAME_CAR = "SUDA-GAME-CAR";
+    public static final String  PROJECT_BOURSE_DATA_KLINE = "PROJECT-BOURSE-DATA-KLINE";
+
 }

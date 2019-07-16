@@ -21,7 +21,7 @@
         <module>common-item-util</module>
         <module>common-item-config</module>
         <module>common-item-constant</module>
-        <module>common-txlcn-server</module>
+        <module>common-txlcn-manager-server</module>
         <!--项目-->
         <module>project-open-birthdate-item</module>
         <module>project-bourse-data-kline</module>
@@ -227,6 +227,22 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+
+
+        <!--分布式事务引入jar 包-->
+        <dependency>
+            <groupId>com.codingapi.txlcn</groupId>
+            <artifactId>txlcn-tm</artifactId>
+            <version>5.0.2.RELEASE</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.codingapi.txlcn</groupId>
+            <artifactId>txlcn-tc</artifactId>
+            <version>5.0.2.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
 </project>

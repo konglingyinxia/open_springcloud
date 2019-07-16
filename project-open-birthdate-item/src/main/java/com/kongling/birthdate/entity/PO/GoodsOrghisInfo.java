@@ -1,4 +1,4 @@
-package com.kongling.bourse.data.kline.entity.PO;
+package com.kongling.birthdate.entity.PO;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

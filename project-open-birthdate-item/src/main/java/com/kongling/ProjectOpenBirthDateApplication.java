@@ -1,5 +1,6 @@
 package com.kongling;
 
+import com.codingapi.txlcn.tc.config.EnableDistributedTransaction;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +20,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication(scanBasePackages = {"config.advice"})
 @MapperScan({"com.kongling.birthdate.mapper"})
-@ComponentScan(basePackages = {"com.util","config"})
+@ComponentScan(basePackages = {"com.util","config","com.kongling.birthdate"})
 @EnableEurekaClient
 @EnableFeignClients(basePackages = {"com.kongling.fegin"})
 @EnableAsync
 @EnableCaching
+@EnableDistributedTransaction
 public class ProjectOpenBirthDateApplication {
     private static final Logger logger = LoggerFactory.getLogger(ProjectOpenBirthDateApplication.class);
 

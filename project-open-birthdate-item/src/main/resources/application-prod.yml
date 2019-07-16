@@ -89,6 +89,9 @@ my-configuration:
       popularizeQrCode: http://192.168.1.6:9999/platform/app/myTeam/getQrcode?invitationCode=
 
 
+tx-lcn:
+  client:
+    manager-address: 127.0.0.1:8070
 
 
 
