@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import com.kongling.bourse.data.kline.entity.PO.GoodsKlineDayInfo;
+import com.kongling.bourse.data.kline.entity.PO.GoodsKlineMinuteInfo;
 import com.kongling.bourse.data.kline.entity.PO.GoodsOrghisInfo;
 import com.kongling.bourse.data.kline.entity.VO.KlineQueryVo;
 import com.kongling.bourse.data.kline.mapper.GoodsKlineDayInfoMapper;
@@ -92,9 +93,8 @@ public class GoodsKlineDayInfoServiceImpl extends ServiceImpl<GoodsKlineDayInfoM
             minuteDataDaySynthesis.setClosePrice(newPrice);
             minuteDataDaySynthesis.setCode(stockOrghisInfo.getCode());
 
-            goodsDay =goodsKlineDayInfoHashMap.get(stockCode);
             if(goodsDay!=null){
-                minuteDataDaySynthesis.setPrevClose(goodsDay.getPrice());
+                minuteDataDaySynthesis.setPrevClose(goodsDay.getClosePrice().stripTrailingZeros().toPlainString());
             }
             minuteDataDaySynthesis.setDate(dateDayStart);
             Date nowDate = DealDateUtil.getNowDate();
@@ -106,5 +106,67 @@ public class GoodsKlineDayInfoServiceImpl extends ServiceImpl<GoodsKlineDayInfoM
             goodsKlineDayInfoHashMap.put(stockCode,goodsDay);
         }
 
+    }
+
+
+    /**
+     * 根据六十分钟数据合成天数据
+     *
+     * @param goodss
+     */
+    @Override
+    public void toCompoundDataDayByMinute60(GoodsKlineMinuteInfo goodss) {
+        //原始时间
+        Date iniDate = goodss.getDate();
+        String stockCode =goodss.getCode();
+        /**
+         * 日线数据
+         */
+        Date dateDayStart = DealDateUtil.getYearMonthDay(DealDateUtil.dateToLocalDateTime(iniDate)).toDate();
+        GoodsKlineDayInfo goodsDay= goodsKlineDayInfoHashMap.get(stockCode);
+        if(goodsDay==null || goodsDay.getDate().before(dateDayStart)){
+            goodsDay =  baseMapper.selectOne(new QueryWrapper<GoodsKlineDayInfo>()
+                    .eq("code",stockCode)
+                    .eq("date",dateDayStart));
+        }
+        if (goodsDay != null && goodsDay.getDate().compareTo(dateDayStart)==0) {
+            if (goodss.getHigh().compareTo(goodsDay.getHigh()) > 0) {
+                goodsDay.setHigh(goodss.getHigh());
+            }
+            if (goodss.getLow().compareTo(goodsDay.getLow()) < 0) {
+                goodsDay.setLow(goodss.getLow());
+            }
+            goodsDay.setClosePrice(goodss.getClosePrice());
+            goodsDay.setVolume(goodsDay.getVolume().add(goodss.getVolume()));
+            baseMapper.update(null,new UpdateWrapper<GoodsKlineDayInfo>()
+                    .setSql("volume=volume+"+goodss.getVolume())
+                    .set("highest_price",goodsDay.getHigh())
+                    .set("lowest_price",goodsDay.getLow())
+                    .set("closing_price",goodsDay.getClosePrice())
+                    .eq("id",goodsDay.getId()));
+            goodsKlineDayInfoHashMap.put(stockCode,goodsDay);
+        } else   if(goodsDay==null || goodsDay.getDate().before(dateDayStart)){
+            GoodsKlineDayInfo minuteDataDaySynthesis = new GoodsKlineDayInfo();
+            minuteDataDaySynthesis.setLow(goodss.getLow());
+            minuteDataDaySynthesis.setHigh(goodss.getHigh());
+            minuteDataDaySynthesis.setOpenPrice(goodss.getOpenPrice());
+            minuteDataDaySynthesis.setClosePrice(goodss.getClosePrice());
+            minuteDataDaySynthesis.setCode(stockCode);
+            minuteDataDaySynthesis.setVolume(goodss.getVolume());
+            if(goodsDay ==null) {
+                goodsDay = goodsKlineDayInfoHashMap.get(stockCode);
+            }
+            if(goodsDay!=null){
+                minuteDataDaySynthesis.setPrevClose(goodsDay.getClosePrice().stripTrailingZeros().toPlainString());
+            }
+            minuteDataDaySynthesis.setDate(dateDayStart);
+            Date nowDate = DealDateUtil.getNowDate();
+            minuteDataDaySynthesis.setTimestamp(nowDate);
+            minuteDataDaySynthesis.setCreateTime(nowDate);
+            minuteDataDaySynthesis.setDateYmd(DealDateUtil.getYearMonthDay(DealDateUtil.dateToLocalDateTime(iniDate)).toDate());
+            baseMapper.insert(minuteDataDaySynthesis);
+
+            goodsKlineDayInfoHashMap.put(stockCode,minuteDataDaySynthesis);
+        }
     }
 }

@@ -15,11 +15,11 @@ public class SpringAsyncConfig {
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         //配置核心线程数
-        executor.setCorePoolSize(200);
+        executor.setCorePoolSize(240);
         //配置最大线程数
-        executor.setMaxPoolSize(1000);
+        executor.setMaxPoolSize(1024);
         //配置队列大小
-        executor.setQueueCapacity(400);
+        executor.setQueueCapacity(1024);
         //配置线程池中的线程的名称前缀
         executor.setThreadNamePrefix("thread-");
         // rejection-policy：当pool已经达到max size的时候，如何处理新任务

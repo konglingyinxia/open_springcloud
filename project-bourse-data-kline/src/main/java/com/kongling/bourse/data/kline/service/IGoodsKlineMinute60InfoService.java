@@ -2,6 +2,7 @@ package com.kongling.bourse.data.kline.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kongling.bourse.data.kline.entity.PO.GoodsKlineMinute60Info;
+import com.kongling.bourse.data.kline.entity.PO.GoodsKlineMinuteInfo;
 import com.kongling.bourse.data.kline.entity.PO.GoodsOrghisInfo;
 import com.kongling.bourse.data.kline.entity.VO.KlineQueryVo;
 
@@ -19,5 +20,13 @@ public interface IGoodsKlineMinute60InfoService extends IService<GoodsKlineMinut
 
     List<Object> listHistoryByVo(KlineQueryVo vo);
 
+    @Deprecated
     void toCompoundData60Minute(GoodsOrghisInfo stockOrghisInfo);
+
+    /**
+     * 根据30分钟更新 60分钟数据
+     *
+     * @param goodss
+     */
+    void toCompoundData60MinuteByMinute30(GoodsKlineMinuteInfo goodss);
 }

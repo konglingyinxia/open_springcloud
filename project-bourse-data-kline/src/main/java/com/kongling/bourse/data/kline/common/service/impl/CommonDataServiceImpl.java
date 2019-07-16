@@ -9,6 +9,7 @@ import com.kongling.bourse.data.kline.entity.PO.GoodsOrghisInfo;
 import com.kongling.bourse.data.kline.entity.VO.StockCodeRealTimeVO;
 import com.kongling.bourse.data.kline.entity.enums.KLineTimeCycleEnum;
 import com.kongling.bourse.data.kline.service.*;
+import com.kongling.bourse.data.kline.websocket.WebSocketServer;
 import com.util.DealDateUtil;
 import config.redis.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,8 @@ public class CommonDataServiceImpl implements ICommonDataService {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     @Autowired
     private IGoodsKlineMinuteInfoService goodsKlineMinuteInfoService;
@@ -75,7 +78,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
                     try {
                         JSONObject json = JSONObject.parseObject(str);
                         GoodsOrghisInfo orghisInfo = JSONObject.toJavaObject(json,GoodsOrghisInfo.class);
-                       // putGoodsOrghisInfo(orghisInfo);
+                        putGoodsOrghisInfo(orghisInfo);
                     }catch (Exception e){
                         log.info("合成数据调用方法错误：\n"+ ExceptionUtils.getFullStackTrace(e));
                     }
@@ -90,15 +93,18 @@ public class CommonDataServiceImpl implements ICommonDataService {
      *
      * @param orghisInfo
      */
+   static long i=1;
     @Override
     public void putGoodsOrghisInfo(GoodsOrghisInfo orghisInfo) {
-        log.info("接收数据：\n"+orghisInfo.toString());
-        //构造实时数据
-        toCompoundDataRedis(orghisInfo);
-        //构造分时k线数据
-        for (KLineTimeCycleEnum dataCycleEnum : KLineTimeCycleEnum.values()) {
-            commonCreateData(orghisInfo, dataCycleEnum.value);
-        }
+        taskExecutor.execute(()-> {
+            log.info((i++)+"接收数据：\n"+orghisInfo.toString());
+            //构造实时数据
+            toCompoundDataRedis(orghisInfo);
+            //构造分时k线数据
+            for (KLineTimeCycleEnum dataCycleEnum : KLineTimeCycleEnum.values()) {
+                commonCreateData(orghisInfo, dataCycleEnum.value);
+            }
+        });
     }
 
     /**
@@ -161,8 +167,10 @@ public class CommonDataServiceImpl implements ICommonDataService {
                 stockProductVOStr = JSONObject.toJSONString(stockProductVO, SerializerFeature.WriteMapNullValue);
                 //放入缓存 数据详情
                 redisUtils.setStockCodeRealTimeStr(stockCode, stockProductVOStr);
-                //推送新数据
-                redisTemplate.convertAndSend(RedisKeysPrefix.VB_XEX_CHANGE_RATE_CHANNEL, stockProductVOStr);
+                //直接推送
+                webSocketServer.sendInfo(stockProductVOStr);
+                //redis 推送新数据
+                //redisTemplate.convertAndSend(RedisKeysPrefix.VB_XEX_CHANGE_RATE_CHANNEL, stockProductVOStr);
             }catch (Exception e){
                 log.info("合成实时数据错误：\n"+ ExceptionUtils.getFullStackTrace(e));
             }
@@ -210,7 +218,6 @@ public class CommonDataServiceImpl implements ICommonDataService {
      */
     private void commonCreateData(GoodsOrghisInfo stockOrghisInfo, String  minutetype) {
         taskExecutor.execute(()-> {
-            long start = System.currentTimeMillis();
             try {
                 switch (minutetype) {
                     case "minute":
@@ -223,42 +230,42 @@ public class CommonDataServiceImpl implements ICommonDataService {
                         break;
                     case "minute5":
                         try{
-                            LOCK5.lock();
-                            goodsKlineMinute5InfoService.toCompoundData5Minute(stockOrghisInfo);
+                           // LOCK5.lock();
+                           // goodsKlineMinute5InfoService.toCompoundData5Minute(stockOrghisInfo);
                         }finally {
-                            LOCK5.unlock();
+                           // LOCK5.unlock();
                         }
                         break;
                     case "minute15":
                         try{
-                            LOCK15.lock();
-                            goodsKlineMinute15InfoService.toCompoundData15Minute(stockOrghisInfo);
+                           // LOCK15.lock();
+                          //  goodsKlineMinute15InfoService.toCompoundData15Minute(stockOrghisInfo);
                         }finally {
-                            LOCK15.unlock();
+                          //  LOCK15.unlock();
                         }
                         break;
                     case "minute30":
                         try{
-                            LOCK30.lock();
-                            goodsKlineMinute30InfoService.toCompoundData30Minute(stockOrghisInfo);
+                          //  LOCK30.lock();
+                         //   goodsKlineMinute30InfoService.toCompoundData30Minute(stockOrghisInfo);
                         }finally {
-                            LOCK30.unlock();
+                          //  LOCK30.unlock();
                         }
                         break;
                     case "minute60":
                         try{
-                            LOCK60.lock();
-                            goodsKlineMinute60InfoService.toCompoundData60Minute(stockOrghisInfo);
+                           // LOCK60.lock();
+                         //   goodsKlineMinute60InfoService.toCompoundData60Minute(stockOrghisInfo);
                         }finally {
-                            LOCK60.unlock();
+                          //  LOCK60.unlock();
                         }
                         break;
                     case "day":
                         try{
-                            LOCK_DAY.lock();
-                            goodsKlineDayInfoService.toCompoundDataDay(stockOrghisInfo);
+                          //  LOCK_DAY.lock();
+                          //  goodsKlineDayInfoService.toCompoundDataDay(stockOrghisInfo);
                         }finally {
-                            LOCK_DAY.unlock();
+                         //   LOCK_DAY.unlock();
                         }
                         break;
                     default:
@@ -268,7 +275,6 @@ public class CommonDataServiceImpl implements ICommonDataService {
                 e.printStackTrace();
                 log.error(minutetype + "分钟数据合成：" + ExceptionUtils.getStackTrace(e));
             }
-           // System.out.println("入口合成时间："+(System.currentTimeMillis()-start));
         });
     }
 

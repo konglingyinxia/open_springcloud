@@ -21,6 +21,7 @@
         <module>common-item-util</module>
         <module>common-item-config</module>
         <module>common-item-constant</module>
+        <module>common-txlcn-server</module>
         <!--项目-->
         <module>project-open-birthdate-item</module>
         <module>project-bourse-data-kline</module>

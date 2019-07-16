@@ -8,6 +8,7 @@ import com.kongling.bourse.data.kline.entity.PO.GoodsKlineMinuteInfo;
 import com.kongling.bourse.data.kline.entity.PO.GoodsOrghisInfo;
 import com.kongling.bourse.data.kline.entity.VO.KlineQueryVo;
 import com.kongling.bourse.data.kline.mapper.GoodsKlineMinuteInfoMapper;
+import com.kongling.bourse.data.kline.service.IGoodsKlineMinute5InfoService;
 import com.kongling.bourse.data.kline.service.IGoodsKlineMinuteInfoService;
 import com.util.DateUtil;
 import com.util.DealDateUtil;
@@ -38,10 +39,14 @@ public class GoodsKlineMinuteInfoServiceImpl extends ServiceImpl<GoodsKlineMinut
     private static Map<String,GoodsKlineMinuteInfo>  goodsKlineMinuteInfoMap = Maps.newHashMap();
 
     @Autowired
+    private IGoodsKlineMinute5InfoService goodsKlineMinute5InfoService;
+
+    @Autowired
     TaskExecutor taskExecutor;
 
     @Autowired
     private RedisUtils redisUtils;
+
     @Override
     public List<Object> listHistoryByVo(KlineQueryVo vo) {
         List<GoodsKlineMinuteInfo> list = baseMapper.selectList(new QueryWrapper<GoodsKlineMinuteInfo>()
@@ -67,30 +72,18 @@ public class GoodsKlineMinuteInfoServiceImpl extends ServiceImpl<GoodsKlineMinut
             if(goods==null|| goods.getDate().before(oneDateStart)){
                 goods =  baseMapper.selectOne(new QueryWrapper<GoodsKlineMinuteInfo>()
                         .eq("code",stockCode)
-                        .eq("date",oneDateStart));
+                        .orderByDesc("date").last("limit 1"));
             }
             if (goods != null && goods.getDate().compareTo(oneDateStart)==0) {
-                /*if(newPrice.compareTo(goods.getClosePrice())!=0){*/
-                final GoodsKlineMinuteInfo  goodss =goods;
-                taskExecutor.execute(()->{
-                    if (newPrice.compareTo(goodss.getHigh()) > 0) {
-                        goodss.setHigh(newPrice);
-                    }
-                    if (newPrice.compareTo(goodss.getLow()) < 0) {
-                        goodss.setLow(newPrice);
-                    }
-                    goodss.setVolume(goodss.getVolume().add(new BigDecimal(stockOrghisInfo.getVolume())));
-                    goodss.setClosePrice(newPrice);
-                    goodsKlineMinuteInfoMap.put(stockCode,goodss);
-                    baseMapper.update(null,new UpdateWrapper<GoodsKlineMinuteInfo>()
-                            .setSql("volume=volume+"+stockOrghisInfo.getVolume())
-                            .set("highest_price",goodss.getHigh())
-                            .set("lowest_price",goodss.getLow())
-                            .set("closing_price",goodss.getClosePrice())
-                            .eq("id",goodss.getId()));
-                });
-
-               /* }*/
+                if (newPrice.compareTo(goods.getHigh()) > 0) {
+                    goods.setHigh(newPrice);
+                }
+                if (newPrice.compareTo(goods.getLow()) < 0) {
+                    goods.setLow(newPrice);
+                }
+                goods.setVolume(goods.getVolume().add(new BigDecimal(stockOrghisInfo.getVolume())));
+                goods.setClosePrice(newPrice);
+                goodsKlineMinuteInfoMap.put(stockCode,goods);
             } else if(goods ==null|| goods.getDate().before(oneDateStart)){
                 GoodsKlineMinuteInfo oneMinuteDataSynthesis = new GoodsKlineMinuteInfo();
                 oneMinuteDataSynthesis.setLow(newPrice);
@@ -99,9 +92,26 @@ public class GoodsKlineMinuteInfoServiceImpl extends ServiceImpl<GoodsKlineMinut
                 oneMinuteDataSynthesis.setClosePrice(newPrice);
                 oneMinuteDataSynthesis.setCode(stockCode);
                 oneMinuteDataSynthesis.setVolume(new BigDecimal(stockOrghisInfo.getVolume()));
-                goods =goodsKlineMinuteInfoMap.get(stockCode);
+                if(goods ==null) {
+                    goods = goodsKlineMinuteInfoMap.get(stockCode);
+                }
                 if(goods!=null){
-                    oneMinuteDataSynthesis.setPrevClose(goods.getPrice());
+                    baseMapper.update(null,new UpdateWrapper<GoodsKlineMinuteInfo>()
+                            .setSql("volume="+goods.getVolume())
+                            .set("highest_price",goods.getHigh())
+                            .set("lowest_price",goods.getLow())
+                            .set("closing_price",goods.getClosePrice())
+                            .eq("id",goods.getId()));
+                    oneMinuteDataSynthesis.setPrevClose(goods.getClosePrice().stripTrailingZeros().toPlainString());
+
+                    GoodsKlineMinuteInfo goodss =goods;
+                    taskExecutor.execute(()-> {
+                        try {
+                            goodsKlineMinute5InfoService.toCompoundData5MinuteByMinute(goodss);
+                        }catch (Exception e){
+                            log.info("五分钟数据更新失败："+ExceptionUtils.getFullStackTrace(e));
+                        }
+                    });
                 }
                 oneMinuteDataSynthesis.setDate(oneDateStart);
                 Date nowDate = DealDateUtil.getNowDate();

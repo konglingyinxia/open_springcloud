@@ -75,6 +75,7 @@ public class WebSocketServer {
             GoodsOrghisInfo orghisInfo =JSONObject.toJavaObject(JSONObject.parseObject(message),GoodsOrghisInfo.class);
             commonDataService.putGoodsOrghisInfo(orghisInfo);
            // redisUtils.lpushQueue(RedisKeysPrefix.FROM_LINKED_QUEUE_NEW_DATE_MESSAGE, JSONObject.toJSONString(orghisInfo, SerializerFeature.WriteMapNullValue));
+
         }catch (Exception e){
             session.sendText(ExceptionUtils.getStackTrace(e));
         }
@@ -130,17 +131,27 @@ public class WebSocketServer {
     /**
      * 群发自定义消息
      */
+    static long start = 0L;
+   static int i=1;
     public void sendInfo(String message) {
         for (Map.Entry<ChannelId, Session> item : concurrentHashMap.entrySet()) {
             try {
-                /**
-                 * 请求数据类型
-                 */
-                item.getValue().sendText(message);
+                if(item.getValue().isOpen()) {
+                    /**
+                     * 请求数据类型
+                     */
+                    synchronized (item) {
+                        item.getValue().sendText(message);
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        if(i==1){
+            start=System.currentTimeMillis();
+        }
+        System.out.println("时间："+(System.currentTimeMillis()-start)+",推送："+i++);
     }
 
     /**

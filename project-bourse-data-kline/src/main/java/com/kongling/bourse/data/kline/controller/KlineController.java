@@ -58,7 +58,7 @@ public class KlineController {
     /**
      *  合成数据测试
       */
-    static  long  seccond_60 = 1000*10;
+    static  long  seccond_60 = 1000*60*60*4;
     public static void main(String[] args) {
 
         List<String> lists = Lists.newArrayList("USDT","ETH","SDT");
