@@ -64,7 +64,6 @@ public class GoodsKlineMinuteInfoServiceImpl extends ServiceImpl<GoodsKlineMinut
         try {
             //原始时间
             Date iniDate = stockOrghisInfo.getDateTime();
-
             /******* 一分钟数据*********************/
             Date oneDateStart = DateUtil.dateMinuteStart(iniDate, 1);
             BigDecimal newPrice = new BigDecimal(stockOrghisInfo.getOpen());
