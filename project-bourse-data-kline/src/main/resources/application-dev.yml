@@ -79,4 +79,4 @@ netty-websocket:
   path: /websocket/chat
 tx-lcn:
   client:
-    manager-address: 127.0.0.1:8070
+    manager-address: 127.0.0.1:9886

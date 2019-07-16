@@ -55,7 +55,7 @@ logging:
 tx-lcn:
   manager:
     port: 9886
-    host: 172.0.0.1
+    host: 127.0.0.1
     admin-key: 123456
   logger:
     enabled: true
