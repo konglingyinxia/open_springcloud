@@ -6,7 +6,6 @@ import com.kongling.birthdate.entity.PO.GoodsOrghisInfo;
 import com.kongling.birthdate.mapper.GoodsOrghisInfoMapper;
 import com.kongling.birthdate.service.IGoodsOrghisInfoService;
 import com.kongling.fegin.test.TestLcnFeginService;
-import config.advice.CommonException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +37,7 @@ public class GoodsOrghisInfoServiceImpl extends ServiceImpl<GoodsOrghisInfoMappe
         baseMapper.insert(GoodsOrghisInfo.builder().date(new Date()).build());
         String  s=   testLcnFeginService.testLcn();
         if(0==0){
-            throw new CommonException();
+            //throw new CommonException();
         }
         return s+"success:birthdate";
     }
