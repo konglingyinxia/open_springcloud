@@ -28,9 +28,9 @@ spring:
       hikari:
         maximum-pool-size: 10
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://192.168.1.200:3306/project-birthdate-item?useUnicode=true&amp&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://192.168.1.6:3307/project-birthdate-item?useUnicode=true&amp&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
       username: root
-      password: 123456
+      password: root
   devtools:
     livereload:
       enabled: true
@@ -40,6 +40,8 @@ spring:
   servlet:
     multipart:
       max-file-size: 20MB
+  zipkin:
+    base-url: http://localhost:9411/
 
 mybatis-plus:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/com.business.mapper/*Mapper.xml
