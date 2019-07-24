@@ -2,6 +2,7 @@ package config.redis;
 
 import com.constant.CommonConstant;
 import com.constant.RedisKeysPrefix;
+import com.google.common.collect.Maps;
 import config.com.MyConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -109,11 +111,12 @@ public class RedisUtils {
         return can;
     }
 //==================================数据币种信息=========================================================================
+    private  static ConcurrentMap maps = Maps.newConcurrentMap();
     /**
      * 获取单个币种涨跌信息
      */
     public String getStockCodeRealTimeStr(String stockCode){
-        Object o=stringRedisTemplate.opsForValue().get(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode);
+       Object o= maps.get(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode);//stringRedisTemplate.opsForValue().get(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode);
         String str = null;
         if(o!=null){
             str = String.valueOf(o);
@@ -125,7 +128,8 @@ public class RedisUtils {
      * 设置单个币种涨跌信息
      */
     public void setStockCodeRealTimeStr(String stockCode,String data){
-        stringRedisTemplate.opsForValue().set(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode,data);
+        maps.put(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode,data);
+        //stringRedisTemplate.opsForValue().set(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode,data);
     }
 
 

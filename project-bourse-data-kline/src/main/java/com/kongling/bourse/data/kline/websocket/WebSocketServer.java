@@ -1,6 +1,8 @@
 package com.kongling.bourse.data.kline.websocket;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.constant.RedisKeysPrefix;
 import com.google.common.collect.Maps;
 import com.kongling.bourse.data.kline.common.service.ICommonDataService;
 import com.kongling.bourse.data.kline.entity.PO.GoodsOrghisInfo;
@@ -72,10 +74,9 @@ public class WebSocketServer {
     @OnMessage
     public void onMessage(Session session, String message) throws IOException {
         try{
-            GoodsOrghisInfo orghisInfo =JSONObject.toJavaObject(JSONObject.parseObject(message),GoodsOrghisInfo.class);
-            commonDataService.putGoodsOrghisInfo(orghisInfo);
-           // redisUtils.lpushQueue(RedisKeysPrefix.FROM_LINKED_QUEUE_NEW_DATE_MESSAGE, JSONObject.toJSONString(orghisInfo, SerializerFeature.WriteMapNullValue));
 
+           GoodsOrghisInfo orghisInfo = JSONObject.toJavaObject(JSONObject.parseObject(message),GoodsOrghisInfo.class);
+            redisUtils.lpushQueue(RedisKeysPrefix.FROM_LINKED_QUEUE_NEW_DATE_MESSAGE, JSONObject.toJSONString(orghisInfo, SerializerFeature.WriteMapNullValue));
         }catch (Exception e){
             session.sendText(ExceptionUtils.getStackTrace(e));
         }
@@ -151,7 +152,7 @@ public class WebSocketServer {
         if(i==1){
             start=System.currentTimeMillis();
         }
-        System.out.println("时间："+(System.currentTimeMillis()-start)+",推送："+i++);
+        //System.out.println("时间："+(System.currentTimeMillis()-start)+",推送："+i++);
     }
 
     /**

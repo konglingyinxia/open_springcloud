@@ -40,6 +40,8 @@ spring:
     multipart:
       max-file-size: 20MB
 
+  zipkin:
+    base-url: http://localhost:9411
 #pagehelper分页插件配置
 pagehelper:
   helperDialect: mysql

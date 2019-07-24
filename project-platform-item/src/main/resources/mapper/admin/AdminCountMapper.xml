@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kongling.platform.mapper.AdminCountMapper">
+
+
+    <select id="getHomePageCountInfo" resultType="com.kongling.platform.entity.VO.homeCount.HomeCountVO">
+        select
+          (select count(id)   from stock_user)as stockUserNum,
+          (select count(id)   from stock_user where date(create_time)=date(now()))as stockUserDayNum,
+				(select count(id)   from stock_user where inspect_auth_status =1)as stockUserNoAuthNum,
+				(select count(id)   from stock_user where inspect_auth_status =3)as stockUserAuthNum,
+				(select count(id)   from stock_user where inspect_auth_status =2)as stockUserWaitAuthNum,
+				(select count(id) from  law_coin_record) as lawCoinAllOrder,
+				(select count(id) from  law_coin_record where status=3) as lawCoinAllDealOrder,
+				(select count(id) from  law_coin_record where  DATE(check_time)=DATE(now())) as lawCoinDayOrder,
+			  (select count(id) from  law_coin_record where status=3 and DATE(check_time)=DATE(now())) as lawCoinDayDealOrder
+    </select>
+
+
+</mapper>

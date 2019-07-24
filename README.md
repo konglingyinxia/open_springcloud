@@ -54,6 +54,8 @@
     
     project-open-birthdate-item：生成八字 服务
     
+    project-platform-item: 权限管理快速平台 服务
+    
   3、项目配置文件说明：
   
     1、服务端口：server:port   redis   数据库 datasource
@@ -140,8 +142,4 @@
 
 
 #### 备注：
-    1、后台超级管理员 admin 密码初始为：123456  
-      前端加密 加密方式为：账号+*+输入密码 MD5加密 例：（MD5(admin*123456)）
-      
-
 

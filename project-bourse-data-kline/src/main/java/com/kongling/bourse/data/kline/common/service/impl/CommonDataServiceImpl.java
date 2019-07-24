@@ -97,9 +97,10 @@ public class CommonDataServiceImpl implements ICommonDataService {
     @Override
     public void putGoodsOrghisInfo(GoodsOrghisInfo orghisInfo) {
         taskExecutor.execute(()-> {
-            log.info((i++)+"接收数据：\n"+orghisInfo.toString());
             //构造实时数据
             toCompoundDataRedis(orghisInfo);
+        });
+        taskExecutor.execute(()-> {
             //构造分时k线数据
             for (KLineTimeCycleEnum dataCycleEnum : KLineTimeCycleEnum.values()) {
                 commonCreateData(orghisInfo, dataCycleEnum.value);
@@ -231,7 +232,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
                     case "minute5":
                         try{
                            // LOCK5.lock();
-                           // goodsKlineMinute5InfoService.toCompoundData5Minute(stockOrghisInfo);
+                          //  goodsKlineMinute5InfoService.toCompoundData5Minute(stockOrghisInfo);
                         }finally {
                            // LOCK5.unlock();
                         }
@@ -239,7 +240,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
                     case "minute15":
                         try{
                            // LOCK15.lock();
-                          //  goodsKlineMinute15InfoService.toCompoundData15Minute(stockOrghisInfo);
+                          // goodsKlineMinute15InfoService.toCompoundData15Minute(stockOrghisInfo);
                         }finally {
                           //  LOCK15.unlock();
                         }
@@ -247,7 +248,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
                     case "minute30":
                         try{
                           //  LOCK30.lock();
-                         //   goodsKlineMinute30InfoService.toCompoundData30Minute(stockOrghisInfo);
+                         // goodsKlineMinute30InfoService.toCompoundData30Minute(stockOrghisInfo);
                         }finally {
                           //  LOCK30.unlock();
                         }
@@ -255,7 +256,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
                     case "minute60":
                         try{
                            // LOCK60.lock();
-                         //   goodsKlineMinute60InfoService.toCompoundData60Minute(stockOrghisInfo);
+                         //  goodsKlineMinute60InfoService.toCompoundData60Minute(stockOrghisInfo);
                         }finally {
                           //  LOCK60.unlock();
                         }
@@ -263,7 +264,7 @@ public class CommonDataServiceImpl implements ICommonDataService {
                     case "day":
                         try{
                           //  LOCK_DAY.lock();
-                          //  goodsKlineDayInfoService.toCompoundDataDay(stockOrghisInfo);
+                           // goodsKlineDayInfoService.toCompoundDataDay(stockOrghisInfo);
                         }finally {
                          //   LOCK_DAY.unlock();
                         }

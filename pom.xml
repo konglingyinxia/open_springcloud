@@ -27,6 +27,8 @@
         <!--项目-->
         <module>project-open-birthdate-item</module>
         <module>project-bourse-data-kline</module>
+        <module>project-platform-item</module>
+
 
     </modules>
     <parent>
@@ -154,8 +156,6 @@
             <version>2.5.0</version>
         </dependency>
 
-
-        <!-- mybatis-plus begin -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -175,9 +175,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
-
-        <!-- mybatis-plus end -->
 
         <!-- 分页插件 -->
         <dependency>

@@ -12,12 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/** 
+/**
  * 拦截防止xss注入
  * 通过Jsoup过滤请求参数内的特定字符
- * @author yangwk 
- */  
-public class XssFilter implements Filter {  
+ * @author yangwk
+ */
+public class XssFilter implements Filter {
 	private static Logger logger = LoggerFactory.getLogger(XssFilter.class);
 
 	/**
@@ -26,27 +26,27 @@ public class XssFilter implements Filter {
 	private static boolean IS_INCLUDE_RICH_TEXT = false;
 
 	private List<String> excludes = new ArrayList<>();
-  
+
     @Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException,ServletException {
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-//		httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
-//		httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-//		httpServletResponse.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, sid, mycustom, smuser,sessionId,x-litemall-admin-token");
+		httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
+		httpServletResponse.addHeader("Access-Control-Allow-Methods", "*");
+		httpServletResponse.addHeader("Access-Control-Allow-Headers", "*");
 		//30 min
 		httpServletResponse.addHeader("Access-Control-Max-Age", "1800");
 		if (logger.isDebugEnabled()) {
   			logger.debug("xss filter is open");
   		}
-  		
+
   		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 		if (FilterComm.handleExcludeURL(req, resp, excludes)) {
   			filterChain.doFilter(request, response);
 			return;
 		}
-  		
+
   		XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper((HttpServletRequest) request,IS_INCLUDE_RICH_TEXT);
   		filterChain.doFilter(xssRequest, response);
     }
@@ -61,7 +61,7 @@ public class XssFilter implements Filter {
 		if(StringUtils.isNotBlank(isIncludeRichText)){
 			IS_INCLUDE_RICH_TEXT = BooleanUtils.toBoolean(isIncludeRichText);
 		}
-		
+
 		String temp = filterConfig.getInitParameter("excludes");
 		if (temp != null) {
 			String[] url = temp.split(",");
@@ -72,6 +72,6 @@ public class XssFilter implements Filter {
 	}
 
 	@Override
-	public void destroy() {}  
-  
-}  
+	public void destroy() {}
+
+}
