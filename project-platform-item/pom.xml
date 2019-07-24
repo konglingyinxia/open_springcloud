@@ -46,13 +46,14 @@
             <artifactId>netty-websocket-spring-boot-starter</artifactId>
             <version>0.8.0</version>
         </dependency>
+<!--
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!--分布式事务引入jar 包-->
+        &lt;!&ndash;分布式事务引入jar 包&ndash;&gt;
         <dependency>
             <groupId>com.codingapi.txlcn</groupId>
             <artifactId>txlcn-tm</artifactId>
@@ -66,6 +67,7 @@
             <version>5.0.2.RELEASE</version>
         </dependency>
 
+-->
 
     </dependencies>
 
