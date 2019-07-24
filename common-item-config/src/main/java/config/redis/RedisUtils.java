@@ -116,7 +116,8 @@ public class RedisUtils {
      * 获取单个币种涨跌信息
      */
     public String getStockCodeRealTimeStr(String stockCode){
-       Object o= maps.get(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode);//stringRedisTemplate.opsForValue().get(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode);
+       Object o=
+       stringRedisTemplate.opsForValue().get(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode);
         String str = null;
         if(o!=null){
             str = String.valueOf(o);
@@ -128,8 +129,7 @@ public class RedisUtils {
      * 设置单个币种涨跌信息
      */
     public void setStockCodeRealTimeStr(String stockCode,String data){
-        maps.put(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode,data);
-        //stringRedisTemplate.opsForValue().set(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode,data);
+        stringRedisTemplate.opsForValue().set(RedisKeysPrefix.VB_XEX_CHANGE_RATE_DATA+stockCode,data);
     }
 
 

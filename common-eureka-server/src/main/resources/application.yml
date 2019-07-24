@@ -1,5 +1,5 @@
 server:
-  port: 9881
+  port: 10001
 eureka:
   instance:
     hostname: 127.0.0.1 #设置当前实例的主机名称
