@@ -119,7 +119,7 @@ public class AdminUserComtroller {
         adminUser.setRoleId(roleId);
         /*
          *
-         *户权限信息
+         *用户权限信息
          */
         List<AdminPermissionRecListVO> permissions = adminPermissionService.getPermissionsRecAll(roleId);
         adminUser.setPermissionFirstMenuVOs(permissions);

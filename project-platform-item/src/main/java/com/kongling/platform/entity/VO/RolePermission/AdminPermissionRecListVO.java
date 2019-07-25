@@ -45,6 +45,11 @@ public class AdminPermissionRecListVO extends Model<AdminPermissionRecListVO> {
     @TableField("menu_url")
     private String menuUrl;
 
+
+    @ApiModelProperty(value = "菜单组件")
+    @TableField("menu_component")
+    private String menuComponent;
+
     @ApiModelProperty(value = "菜单样式")
     @TableField("menu_class")
     private String menuClass;

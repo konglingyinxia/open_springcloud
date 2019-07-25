@@ -16,7 +16,6 @@
         <result column="is_disable" property="isDisable" />
         <result column="is_deleted" property="isDeleted" />
         <result column="admin_parent_id" property="adminParentId" />
-        <result column="agent_parent_id" property="agentParentId" />
         <result column="user_invite_code" property="userInviteCode" />
         <result column="invitation_path" property="invitationPath" />
         <result column="inspect_status" property="inspectStatus" />

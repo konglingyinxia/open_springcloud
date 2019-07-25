@@ -5,8 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.kongling.platform.entity.PO.AdminPermission;
 import com.kongling.platform.entity.VO.RolePermission.AdminPermissionRecListVO;
 import com.kongling.platform.entity.VO.RolePermission.AdminPermissionVO;
+import com.kongling.platform.entity.VO.RolePermission.RoleMenuVO;
 import com.util.pageinfoutil.PageUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,4 +42,12 @@ public interface IAdminPermissionService extends IService<AdminPermission> {
      * @return
      */
     List<AdminPermissionRecListVO> getPermissionsRecAll(Long roleId);
+
+    /**
+     * 获取vue 菜单路由信息
+     * @param roleMenuVOS
+     * @param lists
+     * @return
+     */
+    List<RoleMenuVO> selectRouters(ArrayList<RoleMenuVO> roleMenuVOS, List<AdminPermissionRecListVO> lists);
 }

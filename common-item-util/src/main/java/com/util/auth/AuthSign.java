@@ -49,6 +49,10 @@ public class AuthSign {
     private static  String OBJECT = "object";
 
     /**
+     * 用户角色 id
+     */
+    private static  String ROLE_ID ="roleId";
+    /**
      * 变化时间
      *
      */
@@ -97,6 +101,21 @@ public class AuthSign {
            return jwt.getClaim(ID).asLong();
         } catch (Exception e) {
            log.info("获取用户id错误：%s", ExceptionUtils.getStackTrace(e));
+        }
+        return 0L;
+    }
+
+    /**
+     * 获取用户角色id信息
+     */
+    public  static Long  getUserRoleId(String token) {
+        try {
+            Algorithm algorithm= Algorithm.HMAC256(SECRET);
+            JWTVerifier verifier=JWT.require(algorithm).build();
+            DecodedJWT jwt=verifier.verify(token);
+            return jwt.getClaim(ROLE_ID).asLong();
+        } catch (Exception e) {
+            log.info("获取用户角色id错误：%s", ExceptionUtils.getStackTrace(e));
         }
         return 0L;
     }

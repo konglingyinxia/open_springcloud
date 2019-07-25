@@ -38,7 +38,6 @@
         <relativePath/>
     </parent>
 
-    <!--Dalston 和 Edgware 是基于 Spring Boot 1.5.x 构建的，不支持 Spring Boot 2.0.x-->
     <dependencyManagement>
         <dependencies>
             <dependency>

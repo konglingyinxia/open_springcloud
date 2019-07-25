@@ -42,6 +42,12 @@ public class AdminPermission extends Model<AdminPermission> {
     @TableField("menu_url")
     private String menuUrl;
 
+
+    @ApiModelProperty(value = "菜单组件")
+    @TableField("menu_component")
+    private String menuComponent;
+
+
     @ApiModelProperty(value = "菜单级别  1 一级菜单  2 二级菜单")
     @TableField("menu_lev")
     private Integer menuLev;

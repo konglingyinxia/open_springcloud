@@ -78,10 +78,6 @@ public class AdminUser extends Model<AdminUser> {
     @TableField("admin_parent_id")
     private Long adminParentId;
 
-    @ApiModelProperty(value = "父级分销代理商id")
-    @TableField("agent_parent_id")
-    private Long agentParentId;
-
     @ApiModelProperty(value = "代理商邀请码")
     @TableField("user_invite_code")
     private String userInviteCode;
