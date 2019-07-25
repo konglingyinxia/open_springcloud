@@ -105,17 +105,17 @@ public class AdminPermissionServiceImpl extends ServiceImpl<AdminPermissionMappe
      * @return
      */
     @Override
-    public List<RoleMenuVO> selectRouters(ArrayList<RoleMenuVO> roleMenuVOS, List<AdminPermissionRecListVO> lists) {
+    public List<RoleMenuVO> selectRouters(ArrayList<RoleMenuVO> roleMenuVOS, List<AdminPermissionRecListVO> lists,Long roleId) {
         //处理一级菜单
         lists.forEach(perm -> {
-            if (perm.getChecked()) {
+            if (perm.getChecked() || roleId==1L) {
                 roleMenuVOS.add(RoleMenuVO.builder().redirect("noRedirect")
                         .path(perm.getMenuUrl())
                         .name(perm.getMenuName())
                         .meta(MenuMetaVO.builder().title(perm.getMenuName())
                                 .icon(perm.getMenuClass()).build())
                         .alwaysShow(false)
-                        .component("Layout").children(findChildren(new ArrayList<RoleMenuVO>(), perm.getChildren())).build());
+                        .component("Layout").children(findChildren(new ArrayList<RoleMenuVO>(), perm.getChildren(),roleId)).build());
             }
         });
         return roleMenuVOS;
@@ -124,16 +124,16 @@ public class AdminPermissionServiceImpl extends ServiceImpl<AdminPermissionMappe
     /**
      * 递归子菜单
      */
-    List<RoleMenuVO> findChildren(ArrayList<RoleMenuVO> roleMenuVOS, List<AdminPermissionRecListVO> lists) {
+    List<RoleMenuVO> findChildren(ArrayList<RoleMenuVO> roleMenuVOS, List<AdminPermissionRecListVO> lists,Long roleId) {
         lists.forEach(perm -> {
-            if (perm.getChecked() && perm.getMenuType()== PermissionsMenuTypeEnum.MENU_TYPE_1.getCode().byteValue()) {
-                roleMenuVOS.add(RoleMenuVO.builder().redirect("noRedirect")
+            if ((perm.getChecked()||roleId==1L) && perm.getMenuType()== PermissionsMenuTypeEnum.MENU_TYPE_1.getCode().byteValue()) {
+                roleMenuVOS.add(RoleMenuVO.builder()
                         .path(perm.getMenuUrl())
                         .name(perm.getMenuName())
                         .meta(MenuMetaVO.builder().title(perm.getMenuName())
                                 .icon(perm.getMenuClass()).build())
                         .alwaysShow(false)
-                        .component(perm.getMenuComponent()).children(findChildren(new ArrayList<RoleMenuVO>(), perm.getChildren())).build());
+                        .component(perm.getMenuComponent()).children(findChildren(new ArrayList<RoleMenuVO>(), perm.getChildren(),roleId)).build());
             }
         });
         return roleMenuVOS;

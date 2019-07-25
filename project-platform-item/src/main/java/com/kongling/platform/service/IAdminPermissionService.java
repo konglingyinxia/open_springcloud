@@ -49,5 +49,5 @@ public interface IAdminPermissionService extends IService<AdminPermission> {
      * @param lists
      * @return
      */
-    List<RoleMenuVO> selectRouters(ArrayList<RoleMenuVO> roleMenuVOS, List<AdminPermissionRecListVO> lists);
+    List<RoleMenuVO> selectRouters(ArrayList<RoleMenuVO> roleMenuVOS, List<AdminPermissionRecListVO> lists,Long roleId);
 }

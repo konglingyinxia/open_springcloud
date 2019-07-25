@@ -131,7 +131,7 @@ public class AdminPermissionController {
         Long roleId = AuthSign.getUserRoleId(token);
         roleId =1L;
         List<AdminPermissionRecListVO> lists = adminPermissionService.getPermissionsRecAll(roleId);
-        List<RoleMenuVO> roleMenuVOS = adminPermissionService.selectRouters(new ArrayList<RoleMenuVO>(),lists);
+        List<RoleMenuVO> roleMenuVOS = adminPermissionService.selectRouters(new ArrayList<RoleMenuVO>(),lists,roleId);
         return ResponseUtil.getSuccessMap(roleMenuVOS);
     }
 
