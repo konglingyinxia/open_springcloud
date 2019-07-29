@@ -58,25 +58,7 @@
     
   3、项目配置文件说明：
   
-    1、服务端口：server:port   redis   数据库 datasource
-    
-   ![Image text](./img/1562032682(1).jpg)
-   
-   
-    2、微信 小程序 配置 wx:pay 及自定义配置文件:my-configuration:
-    
-   ![Image text](./img/1562032879(1).jpg)
-   
-     自定义配置文件说明：
-         uploadPath：为服务端存储图片路径
-         imagePath：添加图片访问路径
-         staticPageUrl：为服务端配置静态资源目录
-   ---
-    3、自定义配置类 方法为：suda-platform-web 服务
-       com.suda.platform.common.interceptors.InterceptorConfig.addResourceHandlers
-        
-   ![Image text](./img/1562033336(1).jpg)
-   
+  
  4、项目登陆权限校验 (基于拦截器)
     
     使用技术：redis+JWT 
@@ -94,10 +76,22 @@
             
 
     
-    
+ 5、项目启动顺序
+ 
+ ```
+    common-eureka-server --> common-txlcn-manager-server
+                                        |
+                                        V 
+    common-gateway-server <--  common-zipkin-server
+            |
+            V
+    project-platform-item  .... 等其他各服务模块
+```
+
+ 
 
 #### 安装教程
-
+ 
     1、搭建服务器环境 
         1：到 `https://oneinstack.com/` 网站自定义安装包 （数据库，redis ,jdk ,nginx）
         2:服务器上执行从上面网站复制的 命令：
