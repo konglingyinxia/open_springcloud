@@ -29,6 +29,7 @@
     common-fegin-server：各服务fegin 调用业务接口api 
     
     common-gateway-server: 网关服务 （通过网关映射不同服务）
+        所有静态文件由网关做转发统一处理
     
     common-txlcn-manager-server: 引入txlcn 事务管理器 服务
    [txlcn事物组件地址](https://www.txlcn.org/zh-cn/)
