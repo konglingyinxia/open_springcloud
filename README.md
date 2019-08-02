@@ -1,5 +1,5 @@
 #### 介绍
- 1.该项目为springcloud 分布式微服务 模板架构项目， 致力于提供微服务开发的一站式解决方案。
+ 1.该项目为springcloud 分布式微服务 模板架构项目，已经集成事物管理器， 致力于提供微服务开发的一站式解决方案。
  此项目包含开发分布式应用微服务的必需组件，方便开发者通过 Spring Cloud 编程模型轻松使用这些组件来开发分布式应用服务。
 
  2.参与贡献
@@ -31,6 +31,7 @@
     common-gateway-server: 网关服务 （通过网关映射不同服务）
     
     common-txlcn-manager-server: 引入txlcn 事务管理器 服务
+   [txlcn事物组件地址](https://www.txlcn.org/zh-cn/)
     
     common-zipkin-server: 链路追踪服务
     
