@@ -1,8 +1,13 @@
 #### 介绍
- 1.该项目为springcloud 分布式微服务 模板架构项目，项目中集成各种组件
-    极大的方便了 企业和个人快速开发，快速交付。
+ 1.该项目为springcloud 分布式微服务 模板架构项目， 致力于提供微服务开发的一站式解决方案。
+ 此项目包含开发分布式应用微服务的必需组件，方便开发者通过 Spring Cloud 编程模型轻松使用这些组件来开发分布式应用服务。
+
+ 2.参与贡献
+ 为 open_springcloud 贡献代码:  请联系作者 加入开发者管理团队
  
- 2.项目地址：
+ 作者邮箱：`hedankly@foxmail.com`
+ 
+ 邮件内容：开发者gitee地址或github 地址，码云开发者个人空间完整地址。
    
 ### 软件架构
  1、使用技术：
@@ -23,7 +28,7 @@
     
     common-fegin-server：各服务fegin 调用业务接口api 
     
-    common-gateway-server: 网关服务
+    common-gateway-server: 网关服务 （通过网关映射不同服务）
     
     common-txlcn-manager-server: 引入txlcn 事务管理器 服务
     
@@ -47,19 +52,21 @@
     log:日志目录
     
     page：各服务管理后台页面
+   
+   -----------------------各独立服务项目模块--------------------------------------------------
     
-    -----------------------各独立服务项目模块--------------------------------------------------
+  -  project-bourse-data-kline：金融数据服务 （已完成接口服务）
+  
+        文档地址：`https://www.showdoc.cc/422262238104889`  访问密码：23456
     
-    project-bourse-data-kline：金融数据服务
+  -  project-open-birthdate-item：生成八字 服务 （待完成...）
     
-    project-open-birthdate-item：生成八字 服务
+  -  project-platform-item: 权限管理快速平台 服务（待完成...）
     
-    project-platform-item: 权限管理快速平台 服务
-    
-  3、项目配置文件说明：
   
   
- 4、项目登陆权限校验 (基于拦截器)
+  
+ 4、项目登陆权限校验 (基于拦截器)(权限平台)
     
     使用技术：redis+JWT 
     
@@ -74,7 +81,8 @@
            单设备登录：请求头中获取的 token信息 与 redis 中存储的不一致 则用户已在其他地方登陆
            登陆超时：redis 中 获取不到用户的 token 信息，则用户登陆超时
             
-
+   ![Image text](./img/1564712572(1).jpg)
+   
     
  5、项目启动顺序
  
@@ -91,6 +99,7 @@
  
 
 #### 安装教程
+ - 单个服务安装教程：
  
     1、搭建服务器环境 
         1：到 `https://oneinstack.com/` 网站自定义安装包 （数据库，redis ,jdk ,nginx）
@@ -106,12 +115,12 @@
         4：启动脚本：
             把doc 文件下的shell 脚本 放入 /home/project/ 目录下
             修改脚本名字为：charge.sh
-            修改启动脚本为可执行：chmod 777  charge.sh
-            修改脚本文件里启动项目名字： 为 change-1.0.jar
-     
-   ![Image text](./img/1562034264(1).jpg)
+            修改启动脚本为可执行：chmod 777  xxx.sh
+            修改脚本文件里启动项目名字： 为 xxx.jar
+            
+   ![Image text](./img/1564712734(1).jpg)
    
-    4、项目打包成 jar 包 修改名字 为charge-1.0.jar  上传到服务器 /home/project/ 目录下 
+    4、把服务打包成 jar 包 修改名字 为 xxx.jar  上传到服务器 /home/project/ 目录下 
          启动项目 ： ./charge.sh  restart 
          查看实时日志： tail -f ./log/catalina.out 
            
@@ -124,12 +133,11 @@
             访问路径为：http://ip:端口/静态资源文件目录/index.html
     6、使用 nginx 转发项目 ，在nginx 里配置 https  访问
 
+
 #### 使用说明
 
 
 #### 网站：
-
-    
 
 
 #### 参与贡献
