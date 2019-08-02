@@ -103,13 +103,16 @@
  - 单个服务安装教程：
  
     1、搭建服务器环境 
+    
         1：到 `https://oneinstack.com/` 网站自定义安装包 （数据库，redis ,jdk ,nginx）
         2:服务器上执行从上面网站复制的 命令：
         
    `wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --nginx_option 1 --jdk_option 2 --db_option 4 --dbinstallmethod 1 --dbrootpwd oneinstack --redis  --reboot`
         
     2、创建数据库，
-    3、服务器上创建项目目录 文件：
+    
+    3、服务器上创建项目目录 文件
+  
         1：静态资源目录：/home/project/staticFile
         2：配置文件目录：/home/project/config
         3: 日志目录：/home/project/log
@@ -119,7 +122,8 @@
             修改启动脚本为可执行：chmod 777  xxx.sh
             修改脚本文件里启动项目名字： 为 xxx.jar
             
-   ![Image text](./img/1564712734(1).jpg)
+ ![Image text](./img/1564712734(1).jpg)
+ 
    
     4、把服务打包成 jar 包 修改名字 为 xxx.jar  上传到服务器 /home/project/ 目录下 
          启动项目 ： ./charge.sh  restart 
