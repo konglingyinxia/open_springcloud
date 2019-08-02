@@ -146,3 +146,7 @@
 
 #### 备注：
 
+gitee: `https://gitee.com/kongling_admin/open_springcloud.git`
+
+github: `https://github.com/konglingyinxia/open_springcloud.git`
+
