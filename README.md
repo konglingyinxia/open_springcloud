@@ -1,17 +1,19 @@
-#### 介绍
- 1.该项目为springcloud 分布式微服务 模板架构项目，已经集成事物管理器， 致力于提供微服务开发的一站式解决方案。
- 此项目包含开发分布式应用微服务的必需组件，方便开发者通过 Spring Cloud 编程模型轻松使用这些组件来开发分布式应用服务。
+#### 介绍 -v0.1
 
- 2.参与贡献
- 为 open_springcloud 贡献代码:  请联系作者 加入开发者管理团队
- 
- 作者邮箱：`hedankly@foxmail.com`
- 
- 邮件内容：开发者gitee地址或github 地址，码云开发者个人空间完整地址。
-   
+1.该项目为springcloud 分布式微服务 模板架构项目，已经集成事物管理器， 致力于提供微服务开发的一站式解决方案。
+此项目包含开发分布式应用微服务的必需组件，方便开发者通过 Spring Cloud 编程模型轻松使用这些组件来开发分布式应用服务。
+
+2.参与贡献
+为 open_springcloud 贡献代码:  请联系作者 加入开发者管理团队
+
+作者邮箱：`hedankly@foxmail.com`
+
+邮件内容：开发者gitee地址或github 地址，码云开发者个人空间完整地址。
+
 ### 软件架构
- 1、使用技术：
-    
+
+1、使用技术：
+
     spring boot :2.1.4.RELEASE
     springcloud :Greenwich.SR1
     mybatis-plus:3.0.7.1
@@ -21,9 +23,9 @@
     txlcn: 5.0.2.RELEASE (分布式事务解决组件)
     zipkin: 2.1.1.RELEASE (链路追踪 ，服务监控)
     eureka：2.1.1.RELEASE (注册中心)
-    
- 2、项目目录结构：
- 
+
+2、项目目录结构：
+
     common-eureka-server:注册中心服务
     
     common-fegin-server：各服务fegin 调用业务接口api 
@@ -32,8 +34,9 @@
         所有静态文件由网关做转发统一处理
     
     common-txlcn-manager-server: 引入txlcn 事务管理器 服务
-   [txlcn事物组件地址](https://www.txlcn.org/zh-cn/)
-    
+
+[txlcn事物组件地址](https://www.txlcn.org/zh-cn/)
+
     common-zipkin-server: 链路追踪服务
     
     common-item-config：服务模块公共配置
@@ -54,22 +57,19 @@
     log:日志目录
     
     page：各服务管理后台页面
-   
-   -----------------------各独立服务项目模块--------------------------------------------------
-    
-  -  project-bourse-data-kline：金融数据服务 （已完成接口服务）
-  
-        文档地址：`https://www.showdoc.cc/422262238104889`  访问密码：23456
-    
-  -  project-open-birthdate-item：生成八字 服务 （待完成...）
-    
-  -  project-platform-item: 权限管理快速平台 服务（待完成...）
-    
-  
-  
-  
- 4、项目登陆权限校验 (基于拦截器)(权限平台)
-    
+
+-----------------------各独立服务项目模块--------------------------------------------------
+
+- project-bourse-data-kline：金融数据服务 （已完成接口服务）
+
+  文档地址：`https://www.showdoc.cc/422262238104889`  访问密码：23456
+
+- project-open-birthdate-item：生成八字 服务 （待完成...）
+
+- project-platform-item: 权限管理快速平台 服务（待完成...）
+
+4、项目登陆权限校验 (基于拦截器)(权限平台)
+
     使用技术：redis+JWT 
     
     具体方法： 
@@ -82,12 +82,11 @@
            未登录：拦截器中获取不到 token  信息 则用户未登陆
            单设备登录：请求头中获取的 token信息 与 redis 中存储的不一致 则用户已在其他地方登陆
            登陆超时：redis 中 获取不到用户的 token 信息，则用户登陆超时
-            
-   ![Image text](./img/1564712572(1).jpg)
-   
-    
- 5、项目启动顺序
- 
+
+![Image text](./img/1564712572(1).jpg)
+
+5、项目启动顺序
+
  ```
     common-eureka-server --> common-txlcn-manager-server
                                         |
@@ -98,34 +97,32 @@
     project-platform-item  .... 等其他各服务模块
 ```
 
- 
-
 #### 安装教程
- - 单个服务安装教程：
- 
-    1、搭建服务器环境 
-    
-        1：到 `https://oneinstack.com/` 网站自定义安装包 （数据库，redis ,jdk ,nginx）
-        2:服务器上执行从上面网站复制的 命令：
-        
-   `wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --nginx_option 1 --jdk_option 2 --db_option 4 --dbinstallmethod 1 --dbrootpwd oneinstack --redis  --reboot`
-        
-    2、创建数据库，
-    
-    3、服务器上创建项目目录 文件
-  
-        1：静态资源目录：/home/project/staticFile
-        2：配置文件目录：/home/project/config
-        3: 日志目录：/home/project/log
-        4：启动脚本：
-            把doc 文件下的shell 脚本 放入 /home/project/ 目录下
-            修改脚本名字为：charge.sh
-            修改启动脚本为可执行：chmod 777  xxx.sh
-            修改脚本文件里启动项目名字： 为 xxx.jar
-            
- ![Image text](./img/1564712734(1).jpg)
- 
-   
+
+- 单个服务安装教程：
+
+  1、搭建服务器环境
+
+       1：到 `https://oneinstack.com/` 网站自定义安装包 （数据库，redis ,jdk ,nginx）
+       2:服务器上执行从上面网站复制的 命令：
+
+  `wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --nginx_option 1 --jdk_option 2 --db_option 4 --dbinstallmethod 1 --dbrootpwd oneinstack --redis --reboot`
+
+  2、创建数据库，
+
+  3、服务器上创建项目目录 文件
+
+       1：静态资源目录：/home/project/staticFile
+       2：配置文件目录：/home/project/config
+       3: 日志目录：/home/project/log
+       4：启动脚本：
+           把doc 文件下的shell 脚本 放入 /home/project/ 目录下
+           修改脚本名字为：charge.sh
+           修改启动脚本为可执行：chmod 777  xxx.sh
+           修改脚本文件里启动项目名字： 为 xxx.jar
+
+![Image text](./img/1564712734(1).jpg)
+
     4、把服务打包成 jar 包 修改名字 为 xxx.jar  上传到服务器 /home/project/ 目录下 
          启动项目 ： ./charge.sh  restart 
          查看实时日志： tail -f ./log/catalina.out 
@@ -139,15 +136,11 @@
             访问路径为：http://ip:端口/静态资源文件目录/index.html
     6、使用 nginx 转发项目 ，在nginx 里配置 https  访问
 
-
 #### 使用说明
-
 
 #### 网站：
 
-
 #### 参与贡献
-
 
 #### 备注：
 
